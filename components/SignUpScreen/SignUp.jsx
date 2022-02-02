@@ -1,6 +1,9 @@
  import React, {useState} from "react";
 import { Button, View, StyleSheet, Text } from "react-native";
+
 import Input from "../Input";
+import RedirectButton from "../RedirectButton";
+
  const SingUp = ({navigation}) => {
 
     const [formState, setFormState] = useState({username: '', password: ''});
@@ -29,7 +32,8 @@ import Input from "../Input";
             <Text>{formState.username}</Text>
             <Text>{formState.password}</Text>
             <Button onPress={onSubmit} title="Регистрация"/>
-            <Button style={styles.redirect} onPress={() => navigation.navigate('Login')} title="Войти"/>
+            
+            <RedirectButton style={styles.redirect} title={"Войти"} nextScreen={"Login"}  navigation={navigation}/>
          </View>
      )
  }
@@ -40,7 +44,7 @@ import Input from "../Input";
         backgroundColor: '#FFF'
     },
     redirect: {
-        marginTop: 10
+        marginTop: 30
     }
 })
 

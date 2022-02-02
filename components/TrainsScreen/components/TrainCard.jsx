@@ -1,8 +1,8 @@
 import React from "react";
 import { View, Image, StyleSheet, Text } from "react-native";
-import HandleButton from "../../HandleButton";
 
-const TrainCard = ({imageLink, title, exerciseCount, trainId, added}) => {
+
+const TrainCard = ({imageLink, title, exerciseCount, trainId, added, HandleButton, handleDeleteUserTrain}) => {
     
     return(
         <View style={styles.container}>
@@ -10,7 +10,8 @@ const TrainCard = ({imageLink, title, exerciseCount, trainId, added}) => {
             style={{width: 80, height: 80, borderRadius: 5}}/>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.exerciseCount}>{exerciseCount}</Text>
-            <HandleButton trainId={trainId} initialAddedState={Boolean(added)}/>
+            
+            <HandleButton trainId={trainId} initialAddedState={added} handleDeleteUserTrain={handleDeleteUserTrain}/>
         </View>
     )
 }

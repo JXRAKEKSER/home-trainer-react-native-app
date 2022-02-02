@@ -1,10 +1,14 @@
 import React, { useContext, useState } from "react";
 import { View, Text, StyleSheet, Button  } from 'react-native'
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {authApi} from '../../utils/AuthApi';
 import { trainApi } from "../../utils/TrainApi";
-import Input from "../Input";
 import {AuthContext} from '../../contexts/AuthContext';
+
+import Input from "../Input";
+import RedirectButton from "../RedirectButton";
+
 
 const Login = ({navigation}) => {
     const authUserContext = useContext(AuthContext)
@@ -39,7 +43,7 @@ const Login = ({navigation}) => {
             <Text>{formState.username}</Text>
             <Text>{formState.password}</Text>
             <Button onPress={onSubmit} title="Вход"/>
-            <Button style={styles.redirect} onPress={() => navigation.navigate('SignUp')} title="Регистрация"/>
+            <RedirectButton style={styles.redirect} title={"Регистрация"} nextScreen={"SignUp"} navigation={navigation}/>
         </View>
     );
 }
