@@ -17,7 +17,7 @@ const Trains = () => {
     const { handleGetCommonDataTrains } = useContext(TrainsListContext);
     return(
         <>
-            <Header />
+            
             <TrainsStack.Navigator screenOptions={{headerShown: false}}>
                 <TrainsStack.Screen name="TrainsList">
                     {(props) => <TrainsList {...props} listItem={TrainCard} CardButton={HandleButton} handleGetListData={handleGetCommonDataTrains}/>}

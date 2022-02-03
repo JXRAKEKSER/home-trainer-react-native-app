@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import {  TouchableOpacity, Image, View } from "react-native";
 import { backgroundColor } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
 
-import SvgAddButton from '../source/svg-images/addButton.svg'
+
 import { trainApi } from "../utils/TrainApi";
 
 const HandleButton = ({trainId, initialAddedState}) => {

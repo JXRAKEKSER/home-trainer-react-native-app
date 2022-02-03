@@ -15,7 +15,7 @@ const UserTrains = () => {
     const {handleGetUserTrains} = useContext(TrainsListContext);
     return(
         <>
-        <Header />
+        
         <UserTrainsStack.Navigator screenOptions={{headerShown: false}}>
             <UserTrainsStack.Screen name="UserTrainsList">
                 {(props) => <TrainsList {...props} listItem={TrainCard} handleGetListData={handleGetUserTrains} CardButton={RemoveButton}/>}

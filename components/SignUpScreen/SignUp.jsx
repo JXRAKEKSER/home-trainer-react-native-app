@@ -1,8 +1,10 @@
  import React, {useState} from "react";
 import { Button, View, StyleSheet, Text } from "react-native";
+import Form from "../Form";
 
 import Input from "../Input";
 import RedirectButton from "../RedirectButton";
+import SubmitButton from "../SubmitButton";
 
  const SingUp = ({navigation}) => {
 
@@ -22,18 +24,26 @@ import RedirectButton from "../RedirectButton";
     }
 
      return(
-         <View>
-            <Input onChangeHandler={handleChange} value={formState['username']} name={"username"} placeholder={'Username'}/>
-            <Input onChangeHandler={handleChange}
-             value={formState['password']} 
-             name={"password"} 
-             placeholder={'Password'}
-             saveEdit={true}/>
-            <Text>{formState.username}</Text>
-            <Text>{formState.password}</Text>
-            <Button onPress={onSubmit} title="Регистрация"/>
-            
-            <RedirectButton style={styles.redirect} title={"Войти"} nextScreen={"Login"}  navigation={navigation}/>
+         <View style={styles.container}>
+             <Form>
+                <Text style={styles.title}>Let's Start</Text>
+                <Input onChangeHandler={handleChange} 
+                    value={formState['username']} 
+                    name={"username"} 
+                    placeholder={'Username'}
+                    styleMix={styles.input}/>
+                <Input onChangeHandler={handleChange}
+                    value={formState['password']} 
+                    name={"password"} 
+                    placeholder={'Password'}
+                    saveEdit={true}
+                    styleMix={styles.input}/>
+                 <View style={styles.submitButtonContainer}>
+                    <Text style={styles.submitButtonText}>Sign Up</Text>
+                    <SubmitButton handleSubmit={onSubmit} />
+                </View>
+                <RedirectButton styleMix={{marginTop: 40}} title={"Sign In"} nextScreen={"Login"} navigation={navigation}/>
+             </Form>
          </View>
      )
  }
@@ -41,10 +51,32 @@ import RedirectButton from "../RedirectButton";
  const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FFF'
+        backgroundColor: '#FFF',
+        alignItems:'center',
+        paddingTop: 150,
+        justifyContent: 'space-between'
     },
-    redirect: {
-        marginTop: 30
+    title: {
+        fontSize: 32,
+        fontWeight: '700',
+        textAlign:'left',
+        width: '90%',
+        marginBottom: 40,
+    },
+    formContainer: {
+        width: '90%',
+    },
+    input: {
+        marginBottom: 40
+    },
+    submitButtonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    },
+    submitButtonText: {
+        fontSize: 32,
+        fontWeight: 'bold'
     }
 })
 

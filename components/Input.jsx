@@ -1,19 +1,24 @@
 import React from "react";
 import {TextInput, StyleSheet} from 'react-native'
-const Input = ({onChangeHandler, value, name, placeholder, saveEdit }) => {
-   
+const Input = ({onChangeHandler, value, name, placeholder, saveEdit, styleMix }) => {
+    const inputMix = StyleSheet.compose(styles.input, styleMix);
     return(
-        <TextInput style={styles.signin__input} onChangeText={(val) => onChangeHandler(val, name)} placeholder={placeholder} value={value} secureTextEntry={saveEdit}/>
+        <TextInput placeholderTextColor={'#8b8a9c'} style={inputMix} onChangeText={(val) => onChangeHandler(val, name)} placeholder={placeholder} value={value} secureTextEntry={saveEdit}/>
     )
 }
 
 const styles = StyleSheet.create({
-    signin__input : {
-        borderColor: '#CCC',
+    input : {
+        borderColor: '#f5f5f5',
         borderStyle: "solid",
-        borderWidth: 2,
-        marginTop: 10
+        borderBottomWidth: 3,
+        fontSize: 18,
+        paddingBottom: 20,
+        width: '100%',
+        color: '#1a1a1a',
     }
 })
+
+
 
 export default Input;
