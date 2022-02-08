@@ -1,7 +1,9 @@
- import React, {useState} from "react";
-import { Button, View, StyleSheet, Text } from "react-native";
-import Form from "../Form";
+import React, {useState} from "react";
+import { View, StyleSheet, Text, ToastAndroid } from "react-native";
 
+import { authApi } from "../../utils/AuthApi";
+
+import Form from "../Form";
 import Input from "../Input";
 import RedirectButton from "../RedirectButton";
 import SubmitButton from "../SubmitButton";
@@ -14,12 +16,13 @@ import SubmitButton from "../SubmitButton";
     }
 
     const onSubmit = () => {
-        api.login({username: formState.username, password: formState.password})
-        .then( ({jwt}) => {
-            console.log(jwt)
+        authApi.registration({username: formState.username, password: formState.password})
+        .then( ({message}) => {
+            ToastAndroid.show(message, ToastAndroid.SHORT);
         })
         .catch( error => {
             console.log("error",error)
+            ToastAndroid.show(error, ToastAndroid.SHORT);
         })
     }
 

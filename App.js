@@ -10,6 +10,7 @@ import { TrainsListContext } from './contexts/TrainsListContext';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useState, useEffect } from 'react';
+import 'react-native-gesture-handler';
 
 import ProtectedNavigation from './components/ProtectedNavigation';
 
@@ -23,7 +24,7 @@ export default function App() {
 
   const handleLogOut = () => {
     
-    
+    AsyncStorage.removeItem('trainsHistory').catch( e => console.log(e));
     AsyncStorage.removeItem('jwt')
     .then( () => {
       setAuthUser({...authUser, isLoged: false});
@@ -31,7 +32,19 @@ export default function App() {
   }
 
   const handleUserName = (name) => {
-    setUserName(name);
+    setUserData( prev => ({...prev, username: name}));
+  };
+
+  const handleTrainsHistory = async () => {
+    try {
+      const trainsHistory = await AsyncStorage.getItem('trainsHistory');
+      if (trainsHistory) {
+        console.log(trainsHistory);
+        setUserData(prev =>  ({...prev, trainsHistory: JSON.parse(trainsHistory)}));
+      }
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   const handleGetCommonDataTrains = (setListState) => {
@@ -75,6 +88,7 @@ export default function App() {
         const {username} = await trainApi.getUserName();
         handleLogIn();
         handleUserName(username);
+        handleTrainsHistory();
       }
     } catch (error) {
       console.log('ошибка')
@@ -85,10 +99,11 @@ export default function App() {
   
   const [authUser, setAuthUser] = useState({isLoged: false, handleLogIn: handleLogIn, handleLogOut: handleLogOut, handleUserName: handleUserName});
   const [userName, setUserName] = useState('');
-  const listHandlers = { handleGetCommonDataTrains, handleGetUserTrains}
+  const listHandlers = { handleGetCommonDataTrains, handleGetUserTrains};
+  const [userData, setUserData] = useState({ username: '', trainsHistory: [], handleTrainsHistory: handleTrainsHistory});
   return (
     <AuthContext.Provider value={authUser}>
-      <UserContext.Provider value={userName}>
+      <UserContext.Provider value={userData}>
         <TrainsListContext.Provider value={listHandlers}>  
           <NavigationContainer>
             <Stack.Navigator screenOptions={{headerShown: false}}>

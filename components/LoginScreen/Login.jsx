@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { View, Text, StyleSheet, Button  } from 'react-native'
+import { View, Text, StyleSheet, ToastAndroid  } from 'react-native'
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {authApi} from '../../utils/AuthApi';
@@ -31,6 +31,7 @@ const Login = ({navigation}) => {
                authUserContext.handleLogIn();
             }
         } catch (error) {
+            ToastAndroid.show(error, ToastAndroid.SHORT);
             console.log('Ошибка',error)
         }
     }

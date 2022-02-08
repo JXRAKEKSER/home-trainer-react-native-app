@@ -1,9 +1,11 @@
 import React from "react";
-import { View } from "react-native";
+import { Button, View } from "react-native";
 
-const Header = () => {
+const Header = ({handleSideBarOpened}) => {
     return(
-        <View style={{height: 60, backgroundColor: '#FF5833'}}/>
+        <View style={{height: 60, backgroundColor: '#FF5833'}}>
+            
+        </View>
     );
 }
 

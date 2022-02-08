@@ -39,6 +39,16 @@ class TrainApi{
         })
         .then(this._checkResponse)
     }
+    getTrainById(id){
+        return fetch(`${this._baseUrl}/trains/train/${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${this._token}`
+            }
+        })
+        .then(this._checkResponse)
+    }
 
     getUserTrains(){
         return fetch(`${this._baseUrl}/my-trains/`, {
