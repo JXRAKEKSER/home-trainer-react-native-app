@@ -4,25 +4,36 @@ const ExerciseCard = ({exercise}) => {
     return(
         <View style={styles.container}>
             <Image source={{uri: exercise.image}} style={styles.image} />
-            <Text style={styles.title}>{exercise.title}</Text>
+            <View style={styles.descriptionContainer}>
+                <Text style={styles.title}>{exercise.title}</Text>
+                <Text style={styles.descriptionText}>{`Подходы ${exercise.approaches}`}</Text>
+            </View>
         </View>
     )
 }
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        width: '80%',
-        padding: 10
+        padding: 10,
     },
     image: {
         width: 80,
         height: 80,
-        borderRadius: 5
+        borderRadius: 5,
+        marginRight: 30,
+        flex: 1
     },
     title: {
-        fontSize: 18
+        fontSize: 18,
+        
+    },
+    descriptionContainer: {
+        marginTop: 5,
+        flex: 3
+    },
+    descriptionText: {
+        fontSize: 15,
+        fontWeight: '400'
     }
 })
 

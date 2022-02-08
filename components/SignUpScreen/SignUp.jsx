@@ -1,33 +1,45 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import { View, StyleSheet, Text, ToastAndroid } from "react-native";
 
 import { authApi } from "../../utils/AuthApi";
+import { LoadingContext } from "../../contexts/LoadingContext";
 
 import Form from "../Form";
 import Input from "../Input";
 import RedirectButton from "../RedirectButton";
 import SubmitButton from "../SubmitButton";
+import Loader from "../Loader";
 
  const SingUp = ({navigation}) => {
-
+    const loadingContext = useContext(LoadingContext);
     const [formState, setFormState] = useState({username: '', password: ''});
     const handleChange = (val, name) => {
         setFormState({...formState, [name]: val})
     }
 
     const onSubmit = () => {
+        loadingContext.handleLoading(true);
         authApi.registration({username: formState.username, password: formState.password})
+        .finally( () => loadingContext.handleLoading(false))
         .then( ({message}) => {
+            
             ToastAndroid.show(message, ToastAndroid.SHORT);
         })
         .catch( error => {
-            console.log("error",error)
+            console.log("error",error);
+            
             ToastAndroid.show(error, ToastAndroid.SHORT);
-        })
+        });
     }
 
      return(
-         <View style={styles.container}>
+         <>
+         {loadingContext.isLoading ? (
+             <View style={styles.loaderContainer}>
+                 <Loader />
+             </View>
+         ) : (
+            <View style={styles.container}>
              <Form>
                 <Text style={styles.title}>Let's Start</Text>
                 <Input onChangeHandler={handleChange} 
@@ -48,6 +60,8 @@ import SubmitButton from "../SubmitButton";
                 <RedirectButton styleMix={{marginTop: 40}} title={"Sign In"} nextScreen={"Login"} navigation={navigation}/>
              </Form>
          </View>
+         )}
+         </>
      )
  }
 
@@ -80,6 +94,11 @@ import SubmitButton from "../SubmitButton";
     submitButtonText: {
         fontSize: 32,
         fontWeight: 'bold'
+    },
+    loaderContainer: {
+        paddingTop: '50%',
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 })
 

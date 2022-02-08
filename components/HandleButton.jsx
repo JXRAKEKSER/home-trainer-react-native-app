@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
-import {  TouchableOpacity, Image, View } from "react-native";
-import { backgroundColor } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
+import {  TouchableOpacity, StyleSheet } from "react-native";
+
+import SvgAddButton from "../source/svg-images/SvgAddButton";
+import SvgTrashButton from "../source/svg-images/SvgTrashButton";
 
 
 import { trainApi } from "../utils/TrainApi";
 
-const HandleButton = ({trainId, initialAddedState}) => {
+const HandleButton = ({trainId, initialAddedState, styleMix}) => {
     const [added, setAdded] = useState(initialAddedState);
-    
+    const mixedStyles = StyleSheet.compose({}, styleMix);
     useEffect(() => {
         setAdded(initialAddedState);
     }, [initialAddedState, trainId]);
@@ -33,8 +35,8 @@ const HandleButton = ({trainId, initialAddedState}) => {
         }
     }
     return(
-        <TouchableOpacity onPress={handleChangeState}>
-            <Image source={{uri: added ? 'https://image.shutterstock.com/image-vector/simple-flat-modern-clean-stop-600w-1720139440.jpg' : 'https://image.shutterstock.com/image-vector/add-icon-new-item-plus-600w-1315566653.jpg'}} style={{height: 30, width: 30}} />
+        <TouchableOpacity style={mixedStyles} onPress={handleChangeState}>
+            {added ? <SvgTrashButton width={"30"} height={"30"}/> : <SvgAddButton width={"30"} height={"30"}/>}
         </TouchableOpacity>
     )
 }

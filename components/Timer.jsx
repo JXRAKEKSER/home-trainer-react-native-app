@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text } from "react-native";
+import { Text, StyleSheet, View } from "react-native";
 import ToogleButton from "./ToogleButton";
 
 const Timer = ({ seconds, externalEvent }) => {
@@ -39,11 +39,21 @@ const Timer = ({ seconds, externalEvent }) => {
     }, [counter])
 
     return(
-        <>
-          <Text>{counter}</Text>
-          <ToogleButton handleTimer={ handleTimer } timerState={ timerIsActive } timerValue={ counter }/>
-        </>
+        <View style={styles.container}>
+            <Text style={styles.counter}>{counter}</Text>
+            <ToogleButton handleTimer={ handleTimer } timerState={ timerIsActive } timerValue={ counter }/>
+        </View>
     )
 }
-
+const styles = StyleSheet.create({
+    counter: {
+        fontSize: 56,
+        fontWeight: '900',
+        padding: 30
+    },
+    container: {
+        alignItems: 'center',
+        height: '70%'
+    }
+})
 export default Timer;

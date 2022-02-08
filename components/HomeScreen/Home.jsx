@@ -6,6 +6,7 @@ import { UserContext } from "../../contexts/UserContext";
 import { getGreeting } from "../../utils/uiFeaters";
 import { trainApi } from "../../utils/TrainApi";
 import RecentlyTrainCard from "./RecentlyTrainCard";
+import EmptyList from "../EmptyList";
 
  const Home = ({navigation}) => {
     const userContext = useContext(UserContext);
@@ -24,9 +25,13 @@ import RecentlyTrainCard from "./RecentlyTrainCard";
           <Text style={styles.greetingText}>{`${getGreeting()}, ${userContext.username}`}</Text>
           <View style={styles.trainHistoryContainer}>
             <Text style={styles.trainsHistoryTitle}>Your's train history</Text>
-            <FlatList data={userContext.trainsHistory.trainsList} renderItem={ ({item}) => {
-              return <RecentlyTrainCard train={item} handleNavigateToTrain={handleNavigateToTrain} styleMix={styles.trainsHistoryItemMix}/>
-            }} keyExtractor={item => item._id}/>
+            {userContext.trainsHistory.length === 0 ? <EmptyList text={"It's empty( Let's train!"} /> : (
+              <FlatList data={userContext.trainsHistory.trainsList} renderItem={ ({item}) => {
+                return <RecentlyTrainCard train={item} handleNavigateToTrain={handleNavigateToTrain} styleMix={styles.trainsHistoryItemMix}/>
+              }} keyExtractor={item => item._id}/>
+            )
+            }
+            
           </View>
         </View>
      )
@@ -47,6 +52,7 @@ import RecentlyTrainCard from "./RecentlyTrainCard";
     },
     trainHistoryContainer: {
       width: '95%',
+      height: '30%',
       shadowColor: "#000",
       shadowOffset: {
         width: 0,

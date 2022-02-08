@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { View, Text, Button} from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 
 import { addToTrainToHistory } from '../../utils/uiFeaters';
 import { UserContext } from "../../contexts/UserContext";
@@ -22,12 +22,31 @@ const TrainProcess = ({route}) => {
         }
     }, [exerciseNumber])
     return(
-        <View>
+        <View style={styles.container}>
             <Text>{exercises[exerciseNumber].title}</Text>
             <Timer seconds={10} externalEvent={exerciseNumber}/>
-            <Button onPress={handleNextExercise} title="Next"/>
+            <TouchableOpacity style={styles.nextOpacity} onPress={handleNextExercise}>
+                <Text style={styles.nextOpacityTitle}>Next</Text>
+            </TouchableOpacity>
         </View>
     )
 };
-
+const styles = StyleSheet.create({
+    nextOpacity: {
+        backgroundColor: '#000',
+        borderRadius: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '80%',
+        height: 60,
+    },
+    nextOpacityTitle: {
+        fontSize: 24,
+        fontWeight: '700',
+        color:'#FFF'
+    },
+    container: {
+        alignItems: 'center'
+    }
+})
 export default TrainProcess;

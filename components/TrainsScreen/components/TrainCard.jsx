@@ -7,11 +7,13 @@ const TrainCard = ({imageLink, title, exerciseCount, trainId, added, HandleButto
     return(
         <View style={styles.container}>
             <Image source={{uri: imageLink}}
-            style={{width: 80, height: 80, borderRadius: 5}}/>
-            <Text style={styles.title}>{title}</Text>
-            <Text style={styles.exerciseCount}>{exerciseCount}</Text>
+            style={styles.cardImage}/>
+            <View style={styles.descriptionContainer}>
+                <Text style={styles.title}>{title}</Text>
+                <Text style={styles.exerciseCount}>{`Упражнений ${exerciseCount}`}</Text>
+            </View>
             
-            <HandleButton trainId={trainId} initialAddedState={added} handleDeleteUserTrain={handleDeleteUserTrain}/>
+            <HandleButton styleMix={{marginTop: 10, flex: 1}} trainId={trainId} initialAddedState={added} handleDeleteUserTrain={handleDeleteUserTrain}/>
         </View>
     )
 }
@@ -19,14 +21,28 @@ const TrainCard = ({imageLink, title, exerciseCount, trainId, added, HandleButto
 const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        width: "80%"
+        borderColor: '#CCC',
+        alignItems: 'center',
+        borderWidth: 1,
+        borderRadius: 10
+    },
+    cardImage: {
+        marginRight: 30,
+        width: 80,
+        height: 80,
+        borderRadius: 5,
+        flex: 1
+    },
+    descriptionContainer: {
+        marginTop: 10,
+        marginRight: 30,
+        flex: 2
     },
     title: {
         fontSize: 18,
         fontWeight: "600",
-        lineHeight: 18
+        lineHeight: 18,
+        
     },
     quantity: {
         fontSize: 18,

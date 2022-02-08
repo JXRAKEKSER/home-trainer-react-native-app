@@ -1,12 +1,13 @@
 
 import {trainApi} from './utils/TrainApi';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { ToastAndroid, StyleSheet, View, } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Login from './components/LoginScreen/Login';
 import SingUp from './components/SignUpScreen/SignUp';
 import {AuthContext} from './contexts/AuthContext';
 import { UserContext } from './contexts/UserContext';
 import { TrainsListContext } from './contexts/TrainsListContext';
+import { LoadingContext } from './contexts/LoadingContext';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useState, useEffect } from 'react';
@@ -14,13 +15,14 @@ import 'react-native-gesture-handler';
 
 import ProtectedNavigation from './components/ProtectedNavigation';
 
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   
   const handleLogIn = () => {
     setAuthUser({...authUser, isLoged: true});
-  }
+  };
 
   const handleLogOut = () => {
     
@@ -29,7 +31,7 @@ export default function App() {
     .then( () => {
       setAuthUser({...authUser, isLoged: false});
     })
-  }
+  };
 
   const handleUserName = (name) => {
     setUserData( prev => ({...prev, username: name}));
@@ -45,7 +47,7 @@ export default function App() {
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   const handleGetCommonDataTrains = (setListState) => {
     Promise.all([trainApi.getTrains(), trainApi.getUserTrains()])
@@ -64,7 +66,7 @@ export default function App() {
             setListState(allTrains);
         })
         .catch( error => console.log(error))
-  }
+  };
 
   const handleGetUserTrains = (setListState) => {
     trainApi.getUserTrains()
@@ -74,23 +76,27 @@ export default function App() {
       }
     })
     .catch( error => console.log(error))
-  }
-
-
+  };
+  const handleLoading = (isLoading) => {
+    setLoading({...loading, isLoading});
+  };
 
   useEffect( async() => {
     try {
       
       const jwt = await AsyncStorage.getItem('jwt');
       if(jwt){
-        
+        handleLoading(true);
         trainApi.setToken(jwt);
         const {username} = await trainApi.getUserName();
         handleLogIn();
         handleUserName(username);
         handleTrainsHistory();
+        handleLoading(false);
       }
     } catch (error) {
+      handleLoading(false);
+      ToastAndroid.show(error, ToastAndroid.LONG);
       console.log('ошибка')
 
     }
@@ -98,27 +104,28 @@ export default function App() {
   }, [])
   
   const [authUser, setAuthUser] = useState({isLoged: false, handleLogIn: handleLogIn, handleLogOut: handleLogOut, handleUserName: handleUserName});
-  const [userName, setUserName] = useState('');
+  const [loading, setLoading] = useState({ isLoading: false, handleLoading: handleLoading});
   const listHandlers = { handleGetCommonDataTrains, handleGetUserTrains};
   const [userData, setUserData] = useState({ username: '', trainsHistory: [], handleTrainsHistory: handleTrainsHistory});
   return (
     <AuthContext.Provider value={authUser}>
       <UserContext.Provider value={userData}>
         <TrainsListContext.Provider value={listHandlers}>  
-          <NavigationContainer>
-            <Stack.Navigator screenOptions={{headerShown: false}}>
-              {authUser.isLoged ? (
-            
-                <Stack.Screen name='ProtectedNav' component={ProtectedNavigation} />
-              ):(
-               <>
-                  <Stack.Screen name='Login' component={Login} />
-                  <Stack.Screen name='SignUp' component={SingUp} />
-               </>
-              )}
-      
-            </Stack.Navigator>
-          </NavigationContainer>
+          <LoadingContext.Provider value={loading}>
+            <NavigationContainer>
+                <Stack.Navigator screenOptions={{headerShown: false}}>
+                {authUser.isLoged ? (
+                  
+                  <Stack.Screen name='ProtectedNav' component={ProtectedNavigation} />
+                ):(
+                <>  
+                    <Stack.Screen name='Login' component={Login} />
+                    <Stack.Screen name='SignUp' component={SingUp} />
+                </>
+                )}
+                </Stack.Navigator>
+            </NavigationContainer>
+          </LoadingContext.Provider>
         </TrainsListContext.Provider>
       </UserContext.Provider>
     </AuthContext.Provider>
@@ -129,11 +136,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  text: {
-    color: '#fff'
   }
 });

@@ -1,6 +1,7 @@
 import  React, {useCallback, useState, useEffect} from 'react';
 import { View, TouchableOpacity, StyleSheet, FlatList, Text , ScrollView, RefreshControl} from "react-native";
 import { trainApi } from '../utils/TrainApi';
+import EmptyList from './EmptyList';
 
 
 
@@ -12,11 +13,10 @@ const TrainsList = ({navigation, listItem: Card, CardButton, handleGetListData})
     
     const [trainsList, setTrainsList] = useState([]);
     const [refresh, setRefreshing] = useState(false);
-  
     
     const handleReferesh = useCallback(() => {
         setRefreshing(true);
-        handleGetListData(setTrainsList)
+        handleGetListData(setTrainsList);
          
         wait(2000).then( () => setRefreshing(false))
     }, [])
@@ -39,7 +39,8 @@ const TrainsList = ({navigation, listItem: Card, CardButton, handleGetListData})
     }, [])
     return(
         <View style={styles.container}>
-            {trainsList.length === 0 ? <ScrollView refreshControl={<RefreshControl onRefresh={handleReferesh} refreshing={refresh}/>}><Text>Пусто</Text></ScrollView> : (
+            { }
+            {trainsList.length === 0 ? <ScrollView refreshControl={<RefreshControl onRefresh={handleReferesh} refreshing={refresh}/>}><EmptyList text={"Nothing to train"}/></ScrollView> : (
                 <FlatList data={trainsList} 
                 renderItem={ ({item}) => {
                    return (
@@ -66,9 +67,7 @@ const TrainsList = ({navigation, listItem: Card, CardButton, handleGetListData})
 }
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+        justifyContent:'space-between'
     }
 })
 
