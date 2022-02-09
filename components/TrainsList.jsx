@@ -34,13 +34,17 @@ const TrainsList = ({navigation, listItem: Card, CardButton, handleGetListData})
     ]
 
     useEffect(() => {
-        
         handleGetListData(setTrainsList);
     }, [])
     return(
         <View style={styles.container}>
             { }
-            {trainsList.length === 0 ? <ScrollView refreshControl={<RefreshControl onRefresh={handleReferesh} refreshing={refresh}/>}><EmptyList text={"Nothing to train"}/></ScrollView> : (
+            {trainsList.length === 0 ? (
+                <ScrollView 
+                    refreshControl={<RefreshControl onRefresh={handleReferesh} 
+                    refreshing={refresh}/>}><EmptyList text={"Nothing to train"}/>
+                </ScrollView>) : 
+            (
                 <FlatList data={trainsList} 
                 renderItem={ ({item}) => {
                    return (

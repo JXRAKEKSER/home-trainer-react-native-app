@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useContext } from "react";
-import { View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import { View, ScrollView, Text, TouchableOpacity, StyleSheet, Dimensions} from 'react-native';
 
 import { addToTrainToHistory } from '../../utils/uiFeaters';
 import { UserContext } from "../../contexts/UserContext";
 
 import Timer from "../Timer";
+import ExerciseCard from '../TrainsScreen/components/ExerciseCard'
 
 const TrainProcess = ({route}) => {
     const userContext = useContext(UserContext);
@@ -23,11 +24,14 @@ const TrainProcess = ({route}) => {
     }, [exerciseNumber])
     return(
         <View style={styles.container}>
-            <Text>{exercises[exerciseNumber].title}</Text>
-            <Timer seconds={10} externalEvent={exerciseNumber}/>
-            <TouchableOpacity style={styles.nextOpacity} onPress={handleNextExercise}>
-                <Text style={styles.nextOpacityTitle}>Next</Text>
-            </TouchableOpacity>
+            <ScrollView contentContainerStyle={{alignItems: 'center'}}>
+                
+                <ExerciseCard exercise={exercises[exerciseNumber]}/>
+                <Timer seconds={10} externalEvent={exerciseNumber}/>
+                <TouchableOpacity style={styles.nextOpacity} onPress={handleNextExercise}>
+                    <Text style={styles.nextOpacityTitle}>Next</Text>
+                </TouchableOpacity>
+            </ScrollView>
         </View>
     )
 };
@@ -45,8 +49,13 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         color:'#FFF'
     },
-    container: {
-        alignItems: 'center'
+    textTitle: {
+        fontSize: 24,
+        
+    },
+    header: {
+        alignSelf: 'flex-start',
+        marginLeft: 20
     }
 })
 export default TrainProcess;

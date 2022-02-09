@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, StyleSheet, View } from "react-native";
+import { Text, StyleSheet, View, Dimensions } from "react-native";
 import ToogleButton from "./ToogleButton";
 
 const Timer = ({ seconds, externalEvent }) => {
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     },
     container: {
         alignItems: 'center',
-        height: '70%'
+        height: 300
     }
 })
 export default Timer;

@@ -9,7 +9,7 @@ const RecentlyTrainCard = ({train, handleNavigateToTrain, styleMix}) => {
             <View style={styles.icon}>
             <SvgRecentlyTrain />
             </View>
-            <Text>{train.title}</Text>
+            <Text style={styles.cardTitle}>{train.title}</Text>
         </TouchableOpacity>
     )
 };
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         alignItems: 'center',
         borderWidth: 0,
-        backgroundColor: '#C9A66B',
+        backgroundColor: '#000',
         borderRadius: 5,
         width: '99%'
     },
@@ -30,6 +30,10 @@ const styles = StyleSheet.create({
         height: 50,
         width: 50,
         marginRight: 30
+    },
+    cardTitle: {
+        color: '#FFF',
+
     }
 });
 

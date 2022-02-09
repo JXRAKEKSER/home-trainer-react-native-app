@@ -3,7 +3,7 @@ import {View, Image, Text, StyleSheet} from 'react-native'
 const ExerciseCard = ({exercise}) => {
     return(
         <View style={styles.container}>
-            <Image source={{uri: exercise.image}} style={styles.image} />
+            <Image source={{uri: exercise.previewImage}} style={styles.image} />
             <View style={styles.descriptionContainer}>
                 <Text style={styles.title}>{exercise.title}</Text>
                 <Text style={styles.descriptionText}>{`Подходы ${exercise.approaches}`}</Text>
