@@ -26,9 +26,17 @@ const Timer = ({ seconds, externalEvent }) => {
     }
     
     useEffect(() => {
-        setCounter(seconds);
-        setTimerIsActive(!timerIsActive);
-        setRefInterval(startInterval());
+        if( refInterval === null){
+            setCounter(seconds);
+            setTimerIsActive(true);
+            setRefInterval(startInterval());
+        }else {
+            removeInterval(refInterval);
+            setCounter(seconds);
+            setTimerIsActive(true);
+            setRefInterval(startInterval());
+        }
+        
     }, [externalEvent]);
     useEffect(() => {
         if (counter <= 0) {
